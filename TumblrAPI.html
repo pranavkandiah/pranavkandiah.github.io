@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+	        h1 {
+		        text-align: center;
+		        font-size: 50px;
+	        }
+	        li {
+		    display: inline-block;
+		    vertical-align: middle;
+		    max-width: 250px;
+	        }
+	        li img {
+		        width: 100%;
+	        }
+	        .button {
+                display: inline-block;
+                font-size: 50px;
+                background-color: bisque;
+                border: 2px solid black;
+                border-radius: 50%
+            }
+            #tagscontent li{
+                display:inline-block;
+            }
+    </style>	
+
+    <title>Tumblr Api Game</title>
+
+</head>
+
+    <body>	
+    <h1> Guess the Tag Game!</h1>
+    <div>	
+	    <button class='button' id='a'></button>
+	    <button class='button' id='b'></button>
+	    <button class='button' id='c'></button>
+	    <button class='button' id='d'></button>
+    </div>  
+    <p>Some images may be NFSW</p>
+    <ul id='tagscontent'></ul>
+    
+    
+<script>
+    let tagscontent = document.getElementById('tagscontent')
+	const tags = document.getElementById('tagscontent')
+let tag1 = ['sushi', 'Tokyo', 'mountain', 'fortnite', 'books', 'hats']
+let tag2 = ['coffee', 'Kuala Lumpur', 'pubg', 'cake', 'marvel', 'dance']
+let tag3 = ['chocolate', 'NewYork', 'hotel', 'cartoon', 'comics', 'celebrity']
+let tag4 = ['noodles', 'San Francisco', 'restaurant', 'pizza', 'phones', 'clothing']
+let word1 = tag1[Math.floor(Math.random()*tag1.length)]
+let word2 = tag2[Math.floor(Math.random()*tag2.length)]
+let word3 = tag3[Math.floor(Math.random()*tag3.length)]
+let word4 = tag4[Math.floor(Math.random()*tag4.length)]
+let a = document.getElementById('a')
+a.innerHTML = word1
+let b = document.getElementById('b')
+b.innerHTML = word2
+let c = document.getElementById('c')
+c.innerHTML = word3
+let d = document.getElementById('d')
+d.innerHTML = word4
+var words = [word1, word2, word3, word4]
+var word = words[Math.floor(Math.random()*words.length)]
+fetch ('https://api.tumblr.com/v2/tagged?tag=' + word + '&api_key=yILfKc3wswUjMuq3DZ6kcmw1HECS39zMdQLpaItPtnYDuQZDyZ')
+.then(function(response){
+	return response.json()
+})
+.then(function(result){
+    const items = result.response;
+		tagscontent.innerHTML = ''
+		for(i=0; i<items.length; i++){
+			const item = items[i];
+			
+            if (item.photos != undefined) {
+			let img = document.createElement('img');
+            let ImgSrc = item.photos[0].original_size.url;
+			let li = document.createElement('li');
+            img.src = ImgSrc;
+			li.appendChild(img)
+			tagscontent.appendChild(li)
+			}
+		}
+	})
+a.onclick = function(event){
+	event.preventDefault();
+	if(a.innerHTML == word){
+	alert('That is the right tag!')
+	}
+	else {
+		alert('Too bad! The answer is ' + word +'.')
+	}
+	window.location.reload()
+}
+b.onclick = function(event){
+	event.preventDefault();
+	if(b.innerHTML == word){
+	alert('That is the right tag!')
+	}
+	else {
+		alert('That is wrong! The answer is ' + word +'.')
+	}
+	window.location.reload()
+}
+c.onclick = function(event){
+	event.preventDefault();
+	if(c.innerHTML == word){
+	alert('That is the right tag!')
+	}
+	else {
+		alert('That is wrong! The answer is ' + word +'.')
+	}
+	window.location.reload()
+}
+d.onclick = function(event){
+	event.preventDefault();
+	if(d.innerHTML == word){
+	alert('That is the right tag!')
+	}
+	else {
+		alert('That is wrong! The answer is ' + word +'.')
+	}
+	window.location.reload()
+}
+</script>
+</body>
+</html>
